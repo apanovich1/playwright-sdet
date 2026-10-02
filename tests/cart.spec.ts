@@ -1,11 +1,21 @@
- import { test, expect } from '@playwright/test';
+import { test, expect } from '../fixtures';
 
-test('user can add an item to the cart', async ({ page }) => {
-  await page.goto('https://www.saucedemo.com');
+test('user can add an item to the cart', async ({ loginPage, inventoryPage }) => {
+  await loginPage.goto();
+  await loginPage.login('standard_user', 'secret_sauce');
 
-  await page.getByPlaceholder('Username').fill('standard_user');
-  await page.getByPlaceholder('Password').fill('secret_sauce');
-  await page.getByRole('button', { name: 'Login' }).click();
-  await page.getByTestId('add-to-cart-sauce-labs-backpack').click();
-  await expect(page.getByTestId('shopping-cart-link')).toHaveText('1');
+  await inventoryPage.addToCart('Sauce Labs Backpack');
+
+  await expect(inventoryPage.cartBadge).toHaveText('1');
+});
+
+test('added item appears in the cart', async ({ loginPage, inventoryPage, cartPage }) => {
+  await loginPage.goto();
+  await loginPage.login('standard_user', 'secret_sauce');
+
+  await inventoryPage.addToCart('Sauce Labs Backpack');
+  await inventoryPage.openCart();
+
+  await expect(cartPage.cartItems).toHaveCount(1);
+  await expect(cartPage.cartItems).toContainText('Sauce Labs Backpack');
 });

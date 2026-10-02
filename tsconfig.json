@@ -9,5 +9,5 @@
     "ignoreDeprecations": "6.0",
     "types": ["node"]
   },
-  "include": ["tests", "playwright.config.ts"]
+  "include": ["tests", "pages", "fixtures.ts", "playwright.config.ts"]
 }
