@@ -7,11 +7,12 @@ Click Continue
 Click Finish
 Check that the page shows "Thank you for your order!"*/
 import { test, expect } from '../fixtures';
+import { standardUser } from '../test-data/users';
 
 
 test('standard user can complete checkout', async ({ loginPage, cartPage, checkoutPage, inventoryPage}) => {
   await loginPage.goto();
-  await loginPage.login('standard_user', 'secret_sauce'); 
+  await loginPage.login(standardUser.username, standardUser.password);
 
   await inventoryPage.addToCart('Sauce Labs Backpack');
   await inventoryPage.openCart();

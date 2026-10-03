@@ -1,8 +1,9 @@
 import { test, expect } from '../fixtures';
+import { standardUser } from '../test-data/users';
 
 test('user can add an item to the cart', async ({ loginPage, inventoryPage }) => {
   await loginPage.goto();
-  await loginPage.login('standard_user', 'secret_sauce');
+  await loginPage.login(standardUser.username, standardUser.password);
 
   await inventoryPage.addToCart('Sauce Labs Backpack');
 
@@ -11,7 +12,7 @@ test('user can add an item to the cart', async ({ loginPage, inventoryPage }) =>
 
 test('added item appears in the cart', async ({ loginPage, inventoryPage, cartPage }) => {
   await loginPage.goto();
-  await loginPage.login('standard_user', 'secret_sauce');
+  await loginPage.login(standardUser.username, standardUser.password);
 
   await inventoryPage.addToCart('Sauce Labs Backpack');
   await inventoryPage.openCart();
