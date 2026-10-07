@@ -1,4 +1,5 @@
-import { test as base } from '@playwright/test';
+import { test as base, expect } from '@playwright/test';
+import { standardUser } from './test-data/users';
 import { LoginPage } from './pages/login.page';
 import { InventoryPage } from './pages/inventory.page';
 import { CartPage } from './pages/cart.page';
@@ -9,6 +10,7 @@ type Fixtures = {
   inventoryPage: InventoryPage;
   cartPage: CartPage;
   checkoutPage: CheckoutPage;
+  loggedIn: InventoryPage;
 };
 
 export const test = base.extend<Fixtures>({
@@ -23,7 +25,13 @@ export const test = base.extend<Fixtures>({
   },
   checkoutPage: async ({page}, use) => {
     await use(new CheckoutPage(page));
-  }
+  },
+  loggedIn: async ({loginPage, inventoryPage}, use) =>{
+    await loginPage.goto();
+    await loginPage.login(standardUser.username, standardUser.password); 
+    await expect(inventoryPage.title).toHaveText('Products');
+    await use(inventoryPage);
+  },
 });
 
 export { expect } from '@playwright/test';
