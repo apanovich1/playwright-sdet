@@ -4,17 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-  "test": "playwright test",
-  "test:chromium": "playwright test --project=chromium",
-  "test:headed": "playwright test --headed",
-  "test:ui": "playwright test --ui",
-  "report": "playwright show-report"
+    "test": "playwright test",
+    "test:chromium": "playwright test --project=chromium",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "report": "playwright show-report",
+     "typecheck": "tsc --noEmit"
   },
   "author": "Hanna Apanovich",
   "license": "ISC",
   "devDependencies": {
     "@playwright/test": "^1.63.0",
     "@types/node": "^22.20.3",
-    "dotenv": "^18.0.5"
+    "dotenv": "^18.0.5",
+    "typescript": "^7.0.2"
   }
 }
