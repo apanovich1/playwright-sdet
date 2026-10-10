@@ -48,6 +48,10 @@ playwright.config.ts
 - **Secrets out of source.** Credentials come from environment variables, validated at
   startup with a clear error message if missing. Locally they come from `.env`; in CI from
   GitHub Actions secrets.
+- **Environment-driven base URL.** `baseURL` is read from `BASE_URL`, falling back to
+  saucedemo.com when it's unset or empty — the same suite can target another environment
+  without code changes.
+- **npm scripts as the single entry point.** Local runs and CI use the same commands.
 - **CI-aware config.** Retries and trace capture on CI only; `test.only` is forbidden on CI.
 
 ## Running locally
@@ -56,11 +60,25 @@ playwright.config.ts
 npm ci
 npx playwright install
 cp .env.example .env    # then fill in the saucedemo credentials
-npx playwright test
-npx playwright show-report
+npm test
+npm run report
 ```
 
-Run a single browser: `npx playwright test --project=chromium`
+| Script | What it does |
+|--------|--------------|
+| `npm test` | Run all tests in all browsers |
+| `npm run test:chromium` | Run in Chromium only |
+| `npm run test:headed` | Run with visible browser windows |
+| `npm run test:ui` | Open Playwright UI mode |
+| `npm run report` | Open the last HTML report |
+
+### Environment variables
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `SAUCE_USERNAME` | yes | saucedemo login |
+| `SAUCE_PASSWORD` | yes | saucedemo password |
+| `BASE_URL` | no | App under test; defaults to `https://www.saucedemo.com` |
 
 ## Roadmap
 
