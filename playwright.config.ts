@@ -9,6 +9,9 @@ import path from 'path';
 dotenv.config({ path: path.resolve(__dirname, '.env'), quiet: true });
 //            └──────────── one setting: path ───────┘
 
+/* Fallback when BASE_URL is unset or empty — override per environment via .env or CI. */
+const defaultBaseUrl = 'https://www.saucedemo.com';
+
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
@@ -27,7 +30,7 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
-    baseURL: 'https://www.saucedemo.com',
+    baseURL: process.env.BASE_URL || defaultBaseUrl,
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
