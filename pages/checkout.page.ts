@@ -1,4 +1,5 @@
 import type {Locator, Page} from '@playwright/test';
+import { Customer } from '../test-data/customers';
 
 export class CheckoutPage{
   readonly firstNameInput: Locator;
@@ -8,7 +9,7 @@ export class CheckoutPage{
   readonly finishButton: Locator;
   readonly completeHeader: Locator;
 
-  constructor(private page: Page) {
+  constructor(page: Page) {
     this.firstNameInput = page.getByTestId('firstName');
     this.lastNameInput = page.getByTestId('lastName');
     this.postalCodeInput = page.getByTestId('postalCode');
@@ -17,10 +18,10 @@ export class CheckoutPage{
     this.completeHeader = page.getByTestId('complete-header');
   }
 
-  async fillInformation(firstName: string, lastName: string, postalCode: string) {
-    await this.firstNameInput.fill(firstName);
-    await this.lastNameInput.fill(lastName);
-    await this.postalCodeInput.fill(postalCode);
+  async fillInformation(customer : Customer) {
+    await this.firstNameInput.fill(customer.name);
+    await this.lastNameInput.fill(customer.surname);
+    await this.postalCodeInput.fill(customer.postalCode);
     await this.continueButton.click();
   }
   
