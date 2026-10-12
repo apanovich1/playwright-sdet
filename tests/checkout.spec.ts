@@ -10,9 +10,9 @@ import { test, expect } from '../fixtures';
 import { defaultCustomer, type Customer } from '../test-data/customers';
 
 
-test('standard user can complete checkout', async ({ loggedIn, cartPage, checkoutPage}) => {
-  await loggedIn.addToCart('Sauce Labs Backpack');
-  await loggedIn.openCart();
+test('standard user can complete checkout', async ({ loggedIn, cartPage, checkoutPage, inventoryPage }) => {
+  await inventoryPage.addToCart('Sauce Labs Backpack');
+  await inventoryPage.openCart();
   await cartPage.checkout();
   await checkoutPage.fillInformation(defaultCustomer);  
   await checkoutPage.finishCheckout();

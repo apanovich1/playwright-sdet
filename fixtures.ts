@@ -10,7 +10,7 @@ type Fixtures = {
   inventoryPage: InventoryPage;
   cartPage: CartPage;
   checkoutPage: CheckoutPage;
-  loggedIn: InventoryPage;
+  loggedIn: void;
 };
 
 export const test = base.extend<Fixtures>({
@@ -30,7 +30,7 @@ export const test = base.extend<Fixtures>({
     await loginPage.goto();
     await loginPage.login(standardUser.username, standardUser.password); 
     await expect(inventoryPage.title).toHaveText('Products');
-    await use(inventoryPage);
+    await use();
   },
 });
 
