@@ -1,5 +1,5 @@
 import { test as base, expect } from '@playwright/test';
-import { standardUser } from './test-data/users';
+import { getStandardUser } from './test-data/users';
 import { LoginPage } from './pages/login.page';
 import { InventoryPage } from './pages/inventory.page';
 import { CartPage } from './pages/cart.page';
@@ -27,8 +27,9 @@ export const test = base.extend<Fixtures>({
     await use(new CheckoutPage(page));
   },
   loggedIn: async ({loginPage, inventoryPage}, use) =>{
+    const user = getStandardUser();
     await loginPage.goto();
-    await loginPage.login(standardUser.username, standardUser.password); 
+    await loginPage.login(user.username, user.password);
     await expect(inventoryPage.title).toHaveText('Products');
     await use();
   },

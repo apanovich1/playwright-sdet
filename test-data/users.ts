@@ -8,7 +8,9 @@ function requireEnv(name: string): string {
   return value;
 }
 
-export const standardUser = {
-  username: requireEnv('SAUCE_USERNAME'),
-  password: requireEnv('SAUCE_PASSWORD'),
-};
+export function getStandardUser() {
+  return {
+    username: requireEnv('SAUCE_USERNAME'),
+    password: requireEnv('SAUCE_PASSWORD'),
+  };
+}

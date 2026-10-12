@@ -1,10 +1,11 @@
 import { test, expect } from '../fixtures';
-import { standardUser } from '../test-data/users';
+import { getStandardUser } from '../test-data/users';
 
 
 test('user with wrong password sees an error', async ({ page, loginPage }) => {
+  const user = getStandardUser();
   await loginPage.goto();
-  await loginPage.login(standardUser.username, 'incorrectPassword');
+  await loginPage.login(user.username, 'incorrectPassword');
 
   await expect(page).toHaveURL('/');
   await expect(loginPage.errorMessage).toHaveText(
