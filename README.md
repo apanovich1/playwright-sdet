@@ -45,9 +45,11 @@ playwright.config.ts
   app's `data-test` attribute) locators instead of CSS/XPath, so tests survive styling changes.
 - **Web-first assertions only.** `await expect(locator).toHaveText(...)` retries until the
   condition is met — no manual waits or sleeps.
-- **Secrets out of source.** Credentials come from environment variables, validated at
-  startup with a clear error message if missing. Locally they come from `.env`; in CI from
-  GitHub Actions secrets.
+- **Secrets out of source.** Credentials come from environment variables, read lazily when a
+  test needs them — a missing value fails that test with a clear message instead of crashing
+  the whole run at import time. Locally they come from `.env`; in CI from GitHub Actions secrets.
+- **Type-checked in CI.** `npm run typecheck` (`tsc --noEmit`, strict mode) runs before the
+  browsers are installed, so type errors fail the pipeline in seconds.
 - **Environment-driven base URL.** `baseURL` is read from `BASE_URL`, falling back to
   saucedemo.com when it's unset or empty — the same suite can target another environment
   without code changes.
@@ -71,6 +73,7 @@ npm run report
 | `npm run test:headed` | Run with visible browser windows |
 | `npm run test:ui` | Open Playwright UI mode |
 | `npm run report` | Open the last HTML report |
+| `npm run typecheck` | Type-check the project without running tests |
 
 ### Environment variables
 
