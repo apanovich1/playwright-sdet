@@ -22,6 +22,10 @@ test.describe('Booking API', () => {
 
     const body = await response.json();
     expect(typeof body.bookingid).toBe('number');
+    // toMatchObject, not toEqual: we check that everything we sent was saved,
+    // without failing if the API later adds extra fields to the response.
+    // Spread is needed: toMatchObject expects Record<string, unknown>, and an
+    // interface type (Booking) isn't assignable to it; an object literal is.
     expect(body.booking).toMatchObject({ ...newBooking });
   });
 });
