@@ -11,6 +11,8 @@ dotenv.config({ path: path.resolve(__dirname, '.env'), quiet: true });
 
 /* Fallback when BASE_URL is unset or empty — override per environment via .env or CI. */
 const defaultBaseUrl = 'https://www.saucedemo.com';
+/* Same pattern for the API suite — override with API_URL. */
+const defaultApiUrl = 'https://restful-booker.herokuapp.com';
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -39,18 +41,31 @@ export default defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
+    /* API tests: no browser, own base URL. */
+    {
+      name: 'api',
+      testMatch: '**/api/**/*.spec.ts',
+      use: {
+        baseURL: process.env.API_URL || defaultApiUrl,
+        extraHTTPHeaders: { Accept: 'application/json' },
+      },
+    },
+
     {
       name: 'chromium',
+      testIgnore: '**/api/**',
       use: { ...devices['Desktop Chrome'] },
     },
 
     {
       name: 'firefox',
+      testIgnore: '**/api/**',
       use: { ...devices['Desktop Firefox'] },
     },
 
     {
       name: 'webkit',
+      testIgnore: '**/api/**',
       use: { ...devices['Desktop Safari'] },
     },
 
